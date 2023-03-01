@@ -13,10 +13,9 @@ puts 'Мини-викторина. Ответьте на вопросы за о�
 
 index = 0
 until quiz.finish?(index)
-  # задать вопрос c вариантами ответа
+
   puts quiz.question(index)
 
-  # получить ответ
   user_answer = nil
   begin
     Timeout.timeout(quiz.questions[index].time_for_answer) { user_answer = $stdin.gets.to_i }
