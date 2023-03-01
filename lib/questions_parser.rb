@@ -2,11 +2,11 @@
 
 require 'rexml/document'
 
-class QuestionsCollection
-  def self.from_xml(args)
-    collection = []
+module QuestionsParser
+  def from_xml(path)
+    hashes = []
 
-    file = File.new(args)
+    file = File.new(path)
     doc = REXML::Document.new(file)
     file.close
     doc.elements.each('questions/question') do |question|
@@ -20,19 +20,13 @@ class QuestionsCollection
       question.elements.each('variants/variant') { |variant| variants << variant.text }
       question.elements.each("variants/variant[@right='true']") { |variant| right_answers << variant.text }
 
-      collection << Question.new(text: text,
-                                 variants: variants,
-                                 right_answers: right_answers,
-                                 points: points,
-                                 time_for_answer: seconds)
+      hashes << { text: text,
+                  variants: variants,
+                  right_answers: right_answers,
+                  points: points,
+                  time_for_answer: seconds }
     end
 
-    new(collection)
-  end
-
-  attr_accessor :collection
-
-  def initialize(collection = [])
-    @collection = collection
+    hashes
   end
 end
