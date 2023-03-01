@@ -2,8 +2,8 @@
 
 require 'rexml/document'
 
-module QuestionsParser
-  def from_xml(path)
+class QuestionsParser
+  def self.from_xml(path)
     hashes = []
 
     file = File.new(path)

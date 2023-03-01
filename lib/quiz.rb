@@ -1,23 +1,16 @@
 # frozen_string_literal: true
-# QuestionsParser.from_xml(path) - возвращает хеши для Question.new(elem)
 
-require_relative 'questions_parser'
 require_relative 'tools'
 
 class Quiz
-  include QuestionsParser
   include Tools
   POINTS_FORMS = %w[балл балла баллов].freeze
 
   attr_reader :questions
 
-  def initialize
-    @questions = nil
+  def initialize(hashes)
+    @questions = hashes.map { |hash| Question.new(hash) }
     @points_counter = 0
-  end
-
-  def read_from_xml(path)
-    @questions = from_xml(path).map { |hash| Question.new(hash) }
   end
 
   def question(index)

@@ -1,19 +1,18 @@
 # frozen_string_literal: true
 
 require_relative 'lib/question'
-require_relative 'lib/tools'
+require_relative 'lib/questions_parser'
 require_relative 'lib/quiz'
 require 'timeout'
 
 path_to_files = File.join(__dir__, 'data', 'questions.xml')
 
-quiz = Quiz.new
-quiz.read_from_xml(path_to_files)
+quiz = Quiz.new(QuestionsParser.from_xml(path_to_files))
 
 puts 'Мини-викторина. Ответьте на вопросы за отведенное количество времени.'
 
 index = 0
-until quiz.finish?(index) do
+until quiz.finish?(index)
   # задать вопрос c вариантами ответа
   puts quiz.question(index)
 
