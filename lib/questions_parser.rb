@@ -12,11 +12,8 @@ class QuestionsParser
       points = question.attributes['points']
       text = question.elements[1].text
 
-      variants = []
-      right_answers = []
-
-      question.get_elements('variants/variant').map { |variant| variants << variant.text }
-      question.get_elements("variants/variant[@right='true']").map { |variant| right_answers << variant.text }
+      variants = question.get_elements('variants/variant').map(&:text)
+      right_answers = question.get_elements("variants/variant[@right='true']").map(&:text)
 
       { text: text,
         variants: variants,
