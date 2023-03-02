@@ -11,20 +11,19 @@ quiz = Quiz.new(QuestionsParser.from_xml(path_to_files))
 
 puts 'Мини-викторина. Ответьте на вопросы за отведенное количество времени.'
 
-index = 0
-until quiz.finish?(index)
+until quiz.finish?
 
-  puts quiz.question(index)
+  puts quiz.question
 
   user_answer = nil
   begin
-    Timeout.timeout(quiz.questions[index].time_for_answer) { user_answer = $stdin.gets.to_i }
+    Timeout.timeout(quiz.time_for_answer) { user_answer = $stdin.gets.to_i }
   rescue Timeout::Error
     puts 'Вы не уложились за отведенное время.'
     break
   end
 
-  puts quiz.user_answer_right?(user_answer, index)
-  index += 1
+  puts quiz.user_answer_right?(user_answer)
+  quiz.next_question
 end
 puts quiz.result
