@@ -5,9 +5,12 @@
 # Напрмиер w%[программист, программиста, программистов]
 module Tools
   def inclination(amount, words)
-    return words[2] if (amount % 10).zero? || (amount % 10) > 4 || (amount % 100).between?(11, 14) # программистов
-    return words[1] if (amount % 10).between?(2, 4) # программиста
+    return words[2] if (amount % 100).between?(11, 14) # программистов
 
-    words[0] # программист
+    case amount % 10
+    when 1 then words[0] # программист
+    when 2..4 then words[1] # программиста
+    else words[2] # программистов
+    end
   end
 end

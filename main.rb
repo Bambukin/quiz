@@ -15,13 +15,13 @@ until quiz.finish?
 
   puts quiz.question
 
-  user_answer = nil
-  begin
-    Timeout.timeout(quiz.time_for_answer) { user_answer = $stdin.gets.to_i }
-  rescue Timeout::Error
-    puts 'Вы не уложились за отведенное время.'
-    break
-  end
+  user_answer =
+    begin
+      Timeout.timeout(quiz.time_for_answer) { $stdin.gets.to_i }
+    rescue Timeout::Error
+      puts 'Вы не уложились за отведенное время.'
+      break
+    end
 
   puts quiz.user_answer_right?(user_answer)
   quiz.next_question
