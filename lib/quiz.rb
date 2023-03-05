@@ -14,6 +14,10 @@ class Quiz
     @index = 0
   end
 
+  def current_question
+    @questions[@index]
+  end
+
   def finish?
     @index > @questions.size - 1
   end
@@ -22,24 +26,21 @@ class Quiz
     @index += 1
   end
 
-  def question
-    "#{@index + 1} -- #{@questions[@index].text} " \
-       "(#{@questions[@index].points} #{inclination(@questions[@index].points, POINTS_FORMS)}) " \
-       "Время на вопрос: #{@questions[@index].time_for_answer}сек.\n" \
-      "#{variants.join("\n")}"
-  end
-
   def result
     "Вы набрали #{@points_counter} #{inclination(@points_counter, POINTS_FORMS)}"
   end
 
   def time_for_answer
-    @questions[@index].time_for_answer
+    current_question.time_for_answer
+  end
+
+  def to_s
+    "#{@index}. #{current_question}"
   end
 
   def user_answer_right?(user_answer)
-    if @questions[@index].right_answers.include?(@questions[@index].variants[user_answer - 1])
-      @points_counter += @questions[@index].points
+    if current_question.right_answers.include?(current_question.variants[user_answer - 1])
+      @points_counter += current_question.points
       'Верный ответ!'
     else
       "Неправильно. Правильный ответ: #{@questions[index - 1].right_answers.join(' || ')}"
@@ -47,6 +48,6 @@ class Quiz
   end
 
   def variants
-    @questions[@index].variants.map.with_index(1) { |variant, i| "#{i}. #{variant}" }
+    current_question.variants.map.with_index(1) { |variant, i| "#{i}. #{variant}" }
   end
 end

@@ -13,7 +13,7 @@ puts 'Мини-викторина. Ответьте на вопросы за о�
 
 until quiz.finish?
 
-  puts quiz.question
+  puts quiz.current_question
 
   user_answer =
     begin
