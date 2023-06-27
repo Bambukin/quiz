@@ -8,7 +8,7 @@ class QuestionsParser
     doc.get_elements('questions/question').map do |question|
       seconds = question.attributes['seconds']
       points = question.attributes['points']
-      text = question.elements[1].text
+      text = question.get_elements('text').first.text
 
       variants = question.get_elements('variants/variant').map(&:text)
       right_answers = question.get_elements("variants/variant[@right='true']").map(&:text)
